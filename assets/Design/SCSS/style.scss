@@ -1,0 +1,402 @@
+/* colors */
+$blue: #428bff;
+$red: #ff4a53;
+$dark: #333;
+
+$accent: $blue;
+$accent-inactive: desaturate($accent, 85%);
+$secondary: $accent-inactive;
+
+/* tab setting */
+$tab-count: 3;
+$indicator-width: 50px;
+$indicator-height: 4px;
+
+/* breakpoints */
+$breakpoints: (medium: #{$tab-count * 250px},
+    small: #{$tab-count * 150px},
+);
+
+/* selectors relative to radio inputs */
+$label-selector: "~ ul > li";
+$slider-selector: "~ .slider";
+$content-selector: "~ .content > section";
+
+@mixin tabs($label-selector: $label-selector,
+    $slider-selector: $slider-selector,
+    $content-selector: $content-selector) {
+    @for $i from 1 through $tab-count {
+        &:nth-of-type(#{$i}):checked {
+            #{$label-selector}:nth-child(#{$i}) {
+                @content;
+            }
+
+            #{$slider-selector} {
+                transform: translateX(#{100% * ($i - 1)});
+            }
+
+            #{$content-selector}:nth-child(#{$i}) {
+                display: block;
+            }
+        }
+    }
+}
+
+.tabs {
+    left: 49%;
+    transform: translateX(-50%);
+    position: relative;
+    background: white;
+    padding: 20px;
+    padding-bottom: 5px;
+    width: 96%;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    border-radius: 5px;
+    min-width: #{$tab-count * 60px};
+
+    input[name="tab-control"] {
+        display: none;
+    }
+
+    .content section h2,
+    ul li label {
+        font-family: "Montserrat";
+        font-weight: bold;
+        font-size: 18px;
+        color: $accent;
+    }
+
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+
+        li {
+            box-sizing: border-box;
+            flex: 1;
+            width: #{100% / $tab-count};
+            padding: 0 10px;
+            text-align: center;
+
+            label {
+                transition: all 0.3s ease-in-out;
+                color: $secondary;
+                padding: 5px auto;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                white-space: nowrap;
+                -webkit-touch-callout: none;
+
+                br {
+                    display: none;
+                }
+
+                svg {
+                    fill: $secondary;
+                    height: 1.2em;
+                    vertical-align: bottom;
+                    margin-right: 0.2em;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                &:hover,
+                &:focus,
+                &:active {
+                    outline: 0;
+                    color: lighten($secondary,
+                            15%);
+
+                    svg {
+                        fill: lighten($secondary,
+                                15%);
+                    }
+                }
+            }
+        }
+    }
+
+    .slider {
+        position: relative;
+        width: #{100% / $tab-count};
+        transition: all 0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
+
+        .indicator {
+            position: relative;
+            width: $indicator-width;
+            max-width: 100%;
+            margin: 0 auto;
+            height: $indicator-height;
+            background: $accent;
+            border-radius: 1px;
+        }
+    }
+
+    .content {
+        margin-top: 30px;
+
+        section {
+            padding-bottom: 20px;
+            display: none;
+
+            animation: {
+                name: content;
+                direction: normal;
+                duration: 0.3s;
+                timing-function: ease-in-out;
+                iteration-count: 1;
+            }
+
+            line-height: 1.4;
+            position: relative;
+
+            h2 {
+                color: $accent;
+                display: none;
+
+                &::after {
+                    content: "";
+                    position: relative;
+                    display: block;
+                    width: 30px;
+                    height: 3px;
+                    background: $accent;
+                    margin-top: 5px;
+                    left: 1px;
+                }
+            }
+
+            form {
+                height: 100%;
+
+                table tbody tr th {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    input[name="tab-control"] {
+        @include tabs {
+            >label {
+                cursor: default;
+                color: $accent;
+
+                svg {
+                    fill: $accent;
+                }
+
+                @media (max-width: map-get($breakpoints, small)) {
+                    background: rgba(0,
+                            0,
+                            0,
+                            0.08);
+                }
+            }
+        }
+    }
+
+    @keyframes content {
+        from {
+            opacity: 0;
+            transform: translateY(5%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0%);
+        }
+    }
+
+    @media (max-width: map-get($breakpoints, medium)) {
+        ul li label {
+            white-space: initial;
+
+            br {
+                display: initial;
+            }
+
+            svg {
+                height: 1.5em;
+            }
+        }
+    }
+
+    @media (max-width: map-get($breakpoints, small)) {
+        ul li label {
+            padding: 5px;
+            border-radius: 5px;
+
+            span {
+                display: none;
+            }
+        }
+
+        .slider {
+            display: none;
+        }
+
+        .content {
+            margin-top: 20px;
+
+            section h2 {
+                display: block;
+            }
+        }
+    }
+}
+
+.input_box {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    margin-top: 10px;
+
+    .overlay {
+        width: 37px;
+        height: 38px;
+        position: absolute;
+        right: 16px;
+        z-index: 3;
+        background-color: transparent;
+        top: 50%;
+        cursor: pointer;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+    }
+
+    h3 {
+        width: 50%;
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        transform: translateY(-100%);
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        -o-transform: translateY(-100%);
+    }
+
+    * {
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+    }
+
+    .animated_chk {
+        display: none;
+    }
+
+    label {
+        position: absolute;
+        right: 20px;
+        margin-right: 20px;
+        top: 50%;
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+        background-color: #f72414;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        box-shadow: 0 7px 10px #ffbeb8;
+        cursor: pointer;
+        transition: 0.2s ease transform, 0.2s ease background-color,
+            0.2s ease box-shadow;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    label:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        margin: 0 auto;
+        background-color: #fff;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        box-shadow: inset 0 7px 10px #ffbeb8;
+        transition: 0.2s ease width, 0.2s ease height;
+    }
+
+    label:hover:before {
+        width: 19px;
+        height: 19px;
+        box-shadow: inset 0 7px 10px #ff9d96;
+    }
+
+    label:active {
+        transform: translateY(-50%) scale(0.9);
+    }
+
+    .tick_mark {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        margin: 0 auto;
+        left: 5%;
+        top: -6%;
+        transform: rotateZ(-40deg);
+        -webkit-transform: rotateZ(-40deg);
+        -moz-transform: rotateZ(-40deg);
+        -ms-transform: rotateZ(-40deg);
+        -o-transform: rotateZ(-40deg);
+    }
+
+    .tick_mark:before,
+    .tick_mark:after {
+        content: "";
+        position: absolute;
+        background-color: #fff;
+        border-radius: 2px;
+        opacity: 0;
+        transition: 0.2s ease transform, 0.2s ease opacity;
+    }
+
+    .tick_mark:before {
+        left: 0;
+        bottom: 0;
+        width: 3px;
+        height: 10px;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+        transform: translateY(-68px);
+    }
+
+    .tick_mark:after {
+        left: 0;
+        bottom: 0;
+        width: 20px;
+        height: 3px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+        transform: translateX(78px);
+    }
+
+    .animated_chk:checked+label {
+        background-color: #07d410;
+        box-shadow: 0 2px 3px #92ff97;
+    }
+
+    .animated_chk:checked+label:before {
+        width: 0;
+        height: 0;
+    }
+
+    .animated_chk:checked+label .tick_mark:before,
+    .animated_chk:checked+label .tick_mark:after {
+        transform: translate(0);
+        opacity: 1;
+    }
+}

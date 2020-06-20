@@ -1,0 +1,118 @@
+#container_main {
+    z-index: 6;
+    position: relative;
+    margin: 0;
+    padding: 0 !important;
+    margin: 100px auto 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+
+
+    div {
+
+        font-weight: bold;
+        position: relative;
+        margin-right: 20px;
+
+        &:nth-child(1) {
+            color: #0072ff;
+
+            .social_container {
+                position: absolute !important;
+                top: 0px !important;
+                left: 0 !important;
+                min-width: 240px;
+                min-height: 55px !important;
+                z-index: 5 !important;
+                overflow: hidden;
+                visibility: hidden;
+                opacity: 0;
+                pointer-events: none;
+                transition: 500ms ease-in-out !important;
+
+                -webkit-transition: 500ms ease-in-out;
+                -moz-transition: 500ms ease-in-out;
+                -ms-transition: 500ms ease-in-out;
+                -o-transition: 500ms ease-in-out;
+
+                .social_sharing {
+                    margin-bottom: 10px;
+                    height: 100%;
+                    width: 100%;
+                    background-color: #0072ff;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+                    -ms-border-radius: 8px;
+                    -o-border-radius: 8px;
+                    transition: 500ms ease-in-out;
+                    -webkit-transition: 500ms ease-in-out;
+                    -moz-transition: 500ms ease-in-out;
+                    -ms-transition: 500ms ease-in-out;
+                    -o-transition: 500ms ease-in-out;
+
+                    a {
+                        display: block;
+                        text-decoration: none;
+                        text-align: center;
+                        color: white;
+                        cursor: pointer;
+                        font-size: 20px;
+                        padding: 5px 15px;
+
+                        z-index: 2;
+
+
+                        &:hover {
+                            color: black;
+                            background-color: whitesmoke;
+                        }
+                    }
+                }
+            }
+
+            .social_container.active {
+                visibility: visible;
+                pointer-events: visible;
+                opacity: 1;
+            }
+
+        }
+
+        &:nth-child(2) {
+            color: #ff0000bf;
+        }
+
+        .bottom_sec {
+            margin-top: 60px;
+            cursor: pointer;
+            display: block;
+            padding: 0 10px;
+            color: black;
+
+        }
+
+        .liked {
+            color: #0072ff;
+        }
+
+        .disliked {
+            color: #ff0000bf;
+        }
+    }
+}
+
+.entry-content {
+    &>span {
+        position: absolute;
+        left: 40%;
+        font-weight: bold;
+        color: #ff0000bf;
+        display: none;
+    }
+}
